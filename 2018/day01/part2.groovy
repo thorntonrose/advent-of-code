@@ -1,6 +1,6 @@
-def input = new File("input.txt").readLines().collect { it as int }
-def freqs = [:]
-def acc = 0
+input = new File("input.txt").readLines().collect { it as int }
+freqs = [:]
+acc = 0
 
 while (!input.find {
    acc += it

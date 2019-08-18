@@ -3,11 +3,11 @@ def diff(list1, list2) {
 }
 
 // def ids = [ "abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz" ]
-def ids = new File("input.txt").readLines()
+ids = new File("input.txt").readLines()
 ids = ids*.collect()
 
-def id2
-def id1 = ids.find { a -> id2 = ids.find { diff(a, it).size() == 1 } }
+id2 = ""
+id1 = ids.find { a -> id2 = ids.find { diff(a, it).size() == 1 } }
 println id1
 println id2
 
