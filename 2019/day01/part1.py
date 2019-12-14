@@ -1,7 +1,4 @@
-fuel = 0
-
-with open("input.txt") as input:
-   for module in input:
-      fuel += (int(module) / 3) - 2
-
-print fuel
+#!usr/bin/env python3
+from pathlib import Path
+modules = Path("input.txt").read_text().splitlines()
+print(sum(map(lambda m: (int(m) // 3) - 2, modules)))
