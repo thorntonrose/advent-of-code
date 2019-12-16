@@ -6,4 +6,5 @@ def calc_fuel(module):
    return 0 if fuel <= 0 else fuel + calc_fuel(fuel)
 
 modules = Path("input.txt").read_text().splitlines()
-print(sum(map(lambda m: calc_fuel(m), modules)))
+# print(sum(map(lambda m: calc_fuel(m), modules)))
+print(sum([ (int(m) // 3) - 2 for m in modules ]))

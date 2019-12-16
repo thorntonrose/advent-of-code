@@ -2,30 +2,39 @@
 from sys import argv
 from pathlib import Path
 
-def set_at(offset, val): program[program[offset]] = val
-def get_at(offset): return program[program[offset]]
+def get_at(program, iptr, offset):
+    return program[program[iptr + offset]]
+
+def set_at(program, iptr, offset, val):
+    program[program[iptr + offset]] = val
+
+def load(intcode, x, y):
+    program = intcode.copy()
+    program[1] = x
+    program[2] = y
+
+    print(program)
+    return program
+
+def run(program):
+    for iptr in range(0, len(program), 4):
+        opcode = program[iptr]
+
+        if opcode == 1:
+            set_at(program, iptr, 3, get_at(program, iptr, 1) + get_at(program, iptr, 2))
+        elif opcode == 2:
+            set_at(program, iptr, 3, get_at(program, iptr, 1) * get_at(program, iptr, 2))
+        elif opcode == 99:
+            break
+
+    print(x, y, program[0])
+    return program
 
 # load intcode
-intcode = list(map(lambda x: int(x), Path(argv[1]).read_text().split(',')))
+# intcode = list(map(lambda x: int(x), Path(argv[1]).read_text().split(',')))
+intcode = [ int(x) for x in Path(argv[1]).read_text().split(',') ]
 
 for x in range(100):
     for y in range(100):
-        # load program
-        program = intcode.copy()
-        program[1] = x
-        program[2] = y
-        print(program)
-
-        # run program
-        for iptr in range(0, len(program), 4):
-            opcode = program[iptr]
-
-            if opcode == 1:
-                set_at(iptr + 3, get_at(iptr + 1) + get_at(iptr + 2))
-            elif opcode == 2:
-                set_at(iptr + 3, get_at(iptr + 1) * get_at(iptr + 2))
-            elif opcode == 99:
-                break
-
-        print(x, y, program[0])
+        program = run(load(intcode, x, y))
         if program[0] == 19690720: exit()
