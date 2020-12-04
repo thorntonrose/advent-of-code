@@ -18,13 +18,11 @@ def load(intcode, x, y):
 
 def run(program):
     for iptr in range(0, len(program), 4):
-        opcode = program[iptr]
-
-        if opcode == 1:
+        if program[iptr] == 1:
             set_at(program, iptr, 3, get_at(program, iptr, 1) + get_at(program, iptr, 2))
-        elif opcode == 2:
+        elif program[iptr] == 2:
             set_at(program, iptr, 3, get_at(program, iptr, 1) * get_at(program, iptr, 2))
-        elif opcode == 99:
+        elif program[iptr] == 99:
             break
 
     print(x, y, program[0])
@@ -36,5 +34,4 @@ intcode = [ int(x) for x in Path(argv[1]).read_text().split(',') ]
 
 for x in range(100):
     for y in range(100):
-        program = run(load(intcode, x, y))
-        if program[0] == 19690720: exit()
+        if run(load(intcode, x, y))[0] == 19690720: exit()
